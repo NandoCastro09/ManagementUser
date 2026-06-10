@@ -24,7 +24,7 @@ public class UsersController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message); // Ou use um middleware de erros
+            return BadRequest(ex.Message);
         }
     }
 
