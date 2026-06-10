@@ -1,5 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using ManagementUser.Data; // O namespace onde está seu AppDbContext
+using ManagementUser.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,13 +11,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseMySql(
-builder.Configuration.GetConnectionString("DefaultConnection"),
-ServerVersion.AutoDetect(
-builder.Configuration.GetConnectionString("DefaultConnection"))));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(
+    builder.Configuration.GetConnectionString("DefaultConnection"),
+    ServerVersion.AutoDetect(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+));
+
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<PerfilService>();
 
 var app = builder.Build();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
